@@ -1,0 +1,59 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>Recipesie</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  </head>
+  <body>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+          <a class="navbar-brand" href="/Recipesie/home/">{% block brand %}Recipesie{% endblock %}</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/Recipesie/home/">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item active" >
+                <a class="nav-link" href="/Recipesie/recipes/">Recipes</a>
+              </li>
+                <li class="nav-item active" >
+                <a class="nav-link" href="/Recipesie/recipes/new/">Add Recipe</a>
+              </li>
+
+              <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+              </li>
+
+
+              <li class="nav-item active">
+                  <form action="{% url 'accounts:logout' %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit">Logout</button>
+                  </form>
+              </li>
+
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit" formaction="/Recipesie/search/">Search</button>
+            </form>
+          </div>
+        </nav>
+         {% block content %}
+        <h1>Welcome to Recipesie!</h1>
+        {% endblock %}
+  </body>
+</html>

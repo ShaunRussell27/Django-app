@@ -1,0 +1,92 @@
+{% extends "base2.html" %}
+
+{% block content %}
+<div class="container mt-3">
+
+  <h2>Search for Recipesie</h2>
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Search:</label>
+      {{ form.query }}
+    </div>
+
+    <div class="form-group">
+      <label>Search in:</label>
+      {{ form.search_by }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
+
+    {% if form.non_field_errors %}
+      <div class="text-danger mt-2">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+  </form>
+
+  {% if results %}
+    <h4 class="mt-3">Search Results for {{ form.cleaned_data.query }}</h4>
+
+    <div class="results-panel mt-2">
+      {% for r in results %}
+        <div class="result-item">
+
+          <!-- Recipe name: link only if authenticated -->
+          <div><strong>Name:</strong>
+            {% if user.is_authenticated %}
+              <a href="{% url 'recipe_edit' r.pk %}">{{ r.name }}</a>
+            {% else %}
+              {{ r.name }}
+            {% endif %}
+          </div>
+
+          <!-- Display recipe image (if available) -->
+          {% if r.recipe_img %}
+            <div class="mt-2">
+              <a href="{{ r.recipe_img.url }}" target="_blank">View image</a><br>
+              <img src="{{ r.recipe_img.url }}" alt="{{ r.name }}" style="max-width:250px;">
+            </div>
+          {% endif %}
+
+          <!-- Add/Update recipe image button: only if authenticated -->
+          {% if user.is_authenticated %}
+            <div class="mt-2">
+              <a href="{% url 'recipe_image' r.pk %}" class="btn btn-secondary btn-sm">
+                Add / Update Recipe Image
+              </a>
+            </div>
+          {% endif %}
+
+          <div class="mt-2"><strong>Ingredients:</strong>
+            {% for i in r.ingredients.all %}
+              {{ i.ingredient }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+
+          <div><strong>Tags:</strong>
+            {% for t in r.tags.all %}
+              {{ t.tag }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </div>
+
+          <div><strong>Contributor:</strong> {{ r.contributor.email }}</div>
+          <div><strong>Number of Steps:</strong> {{ r.nsteps }}</div>
+          <div><strong>Minutes:</strong> {{ r.minutes }}</div>
+          <div><strong>Number of Ingredients:</strong> {{ r.ningredients }}</div>
+
+        </div>
+
+        {% if not forloop.last %}
+          <hr class="result-divider">
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Recipe {{ recipe.name | title}}</h1>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Rating</th>
+        <th scope="col">Content</th>
+        <th scope="col">User</th>
+        <th scope="col">Date edited</th>
+      </tr>
+    </thead>
+    <tbody>
+  {% for review in reviews %}
+      <tr>
+        <td>{{ review.rating }}</td>
+        <td>{{ review.content }}</td>
+        <td>{{ review.creator }}</td>
+        <td>{{ review.date_edited }}</td>
+      </tr>
+  {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

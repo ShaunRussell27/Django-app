@@ -1,0 +1,27 @@
+{% extends "base2.html" %}
+{% block content %}
+
+<h2>Upload/Update Image for {{ recipe.name }}</h2>
+
+{% if messages %}
+  {% for message in messages %}
+    <p style="font-weight:bold;">{{ message }}</p>
+  {% endfor %}
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Save</button>
+</form>
+
+{% if recipe.recipe_img %}
+  <p>
+    Current image:
+    <a href="{{ recipe.recipe_img.url }}" target="_blank">{{ recipe.recipe_img.name }}</a>
+  </p>
+  <img src="{{ recipe.recipe_img.url }}" alt="{{ recipe.name }}" style="max-width:300px;">
+{% endif %}
+
+{% endblock %}
+

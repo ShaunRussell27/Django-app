@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<ul class="list-group">
+        {% for item in recipe_list %}
+            <li class="list-group-item">
+                  <span class="text-info">Name: </span><span>{{ item.recipe.name }}</span>
+                  <br>
+                  <span class="text-info">Minutes: </span><span>{{ item.recipe.minutes }}</span>
+                  <br>
+                  <span class="text-info">Number of Steps: </span><span>{{ item.recipe.nsteps }}</span>
+                  <br>
+                  <span class="text-info">Steps: </span><span>{{ item.recipe.steps }}</span>
+                  <br>
+                  <span class="text-info">Description: </span><span>{{ item.recipe.description }}</span>
+                  <br>
+                  <span class="text-info">Date Submitted: </span><span>{{ item.recipe.date_submitted | date:"D d M Y"}}</span>
+                  <br>
+                  <span class="text-info">Contributor: </span><span>{{ item.recipe.contributor }}</span>
+                  <br>
+                  <span class="text-info">Number of Ingredients: </span><span>{{ item.recipe.ningredients }}</span>
+                  <br>
+                  <span class="text-info">Ingredients: </span>
+                  {% for ing in item.ingredients %}
+                        <span>{{ ing.ingredient }},</span>
+                  {% endfor %}
+                  <br>
+                  <span class="text-info">Tags: </span>
+                  {% for ta in item.tags %}
+                        <span>{{ ta.tag }},</span>
+                  {% endfor %}
+                  <br>
+                  <span class="text-info">Rating: </span><span class="badge badge-primary badge-pill">{{ item.recipe_rating }}</span>
+                  <br>
+                  <span class="text-info">Number of reviews: </span><span>{{ item.number_of_reviews }}</span>
+                  <br>
+                  {% if item.recipe_rating is None %}
+                  <span class="text-secondary">Provide a rating and write the first review for this recipe.</span>
+                  <br>
+
+                  {% else %}
+                  <a class="btn btn-primary btn-sm active" role="button" aria-pressed="true" href="/Recipesie/recipes_reviews/detail?recipe_id={{ item.recipe.id }}">Show Reviews</a></li>
+                  {% endif %}
+
+             </li>
+        {% endfor %}
+
+</ul>
+{% endblock %}

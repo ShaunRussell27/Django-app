@@ -1,0 +1,115 @@
+{% extends "base2.html" %}
+{% block content %}
+
+<div class="container mt-3">
+
+  {# Success message after update/create #}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% if recipe %}
+    <h2>Change recipe</h2>
+    <h3 style="margin-top: 10px;">{{ recipe.name }}</h3>
+
+    <div class="mb-3 text-muted">
+      <strong>Date submitted:</strong> {{ recipe.date_submitted }} |
+      <strong>Contributor:</strong> {{ recipe.contributor.email }}
+    </div>
+  {% else %}
+    <h2>Create recipe</h2>
+
+    <div class="mb-3 text-muted">
+      <strong>Date submitted:</strong> (will be set automatically) |
+      <strong>Contributor:</strong> {{ request.user.email }}
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Recipe Metrics -->
+    <div class="card mb-3">
+      <div class="card-header" style="background:#3f6f7b; color:white;">
+        Recipe Metrics
+      </div>
+      <div class="card-body">
+
+        <div class="form-group">
+          <label><strong>Minutes:</strong></label>
+          {{ form.minutes }}
+          {% if form.minutes.errors %}<div class="text-danger">{{ form.minutes.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-group">
+          <label><strong>Nsteps:</strong></label>
+          {{ form.nsteps }}
+          {% if form.nsteps.errors %}<div class="text-danger">{{ form.nsteps.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-group">
+          <label><strong>Ningredients:</strong></label>
+          {{ form.ningredients }}
+          {% if form.ningredients.errors %}<div class="text-danger">{{ form.ningredients.errors }}</div>{% endif %}
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Descriptive Information -->
+    <div class="card mb-3">
+      <div class="card-header" style="background:#3f6f7b; color:white;">
+        Descriptive Information
+      </div>
+      <div class="card-body">
+
+        <div class="form-group">
+          <label><strong>Description:</strong></label>
+          {{ form.description }}
+          {% if form.description.errors %}<div class="text-danger">{{ form.description.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-group">
+          <label><strong>Steps:</strong></label>
+          {{ form.steps }}
+          {% if form.steps.errors %}<div class="text-danger">{{ form.steps.errors }}</div>{% endif %}
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Name + Tags + Ingredients -->
+    <div class="card mb-3">
+      <div class="card-header" style="background:#3f6f7b; color:white;">
+        Classification
+      </div>
+      <div class="card-body">
+
+        <div class="form-group">
+          <label><strong>Name:</strong></label>
+          {{ form.name }}
+          {% if form.name.errors %}<div class="text-danger">{{ form.name.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-group">
+          <label><strong>Tags:</strong></label>
+          {{ form.tags }}
+        </div>
+
+        <div class="form-group">
+          <label><strong>Ingredients:</strong></label>
+          {{ form.ingredients }}
+        </div>
+
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+  </form>
+</div>
+
+{% endblock %}
+
